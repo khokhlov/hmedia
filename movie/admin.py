@@ -8,15 +8,20 @@ class TFileInlineAdmin(admin.StackedInline):
     model = Movie.torrents.through
     extra = 1
 
+class MovieDirInlineAdmin(admin.StackedInline):
+    model = Movie.movie_dir.through
+    extra = 1
+
 def parse_kp(modeladmin, request, queryset):
     for o in queryset.all():
         o.parse_kp()
 
 class MovieAdmin(admin.ModelAdmin):
     list_display = ('name_en', 'name_ru', 'year', 'kp_id', 'kp_parsed')
-    exclude = ('torrents', )
-    inlines = [TFileInlineAdmin, ]
+    exclude = ('torrents', 'movie_dir')
+    inlines = [TFileInlineAdmin, MovieDirInlineAdmin]
     actions = [parse_kp, ]
 
 admin.site.register(Movie, MovieAdmin)
+admin.site.register(MovieDir)
 

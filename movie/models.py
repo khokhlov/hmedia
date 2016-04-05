@@ -16,6 +16,12 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 # Create your models here.
 
+class MovieDir(models.Model):
+    name = models.CharField(max_length = 1024, verbose_name = 'Dir')
+    
+    def __unicode__(self):
+        return self.name
+
 class Movie(models.Model):
     name_en = models.CharField(max_length = 1024, blank = True, verbose_name = 'English name')
     name_ru = models.CharField(max_length = 1024, blank = True, verbose_name = 'Russian name')
@@ -23,7 +29,7 @@ class Movie(models.Model):
     kp_id = models.CharField(max_length = 2014, blank = True, verbose_name = 'Kinopoisk id')
     kp_parsed = models.BooleanField(default = False, verbose_name = 'Kinopoisk parsed')
     torrents = models.ManyToManyField(TFile, verbose_name = 'Torrents')
-    
+    movie_dir = models.ManyToManyField(MovieDir, verbose_name = 'Dirs')
     cached = models.TextField(blank = True, null = True, verbose_name = 'Kinopoisk cache')
     
     def __unicode__(self):
@@ -43,4 +49,6 @@ class Movie(models.Model):
         if m:
             return m.group(1)
         return self.kp_id
-           
+
+
+
