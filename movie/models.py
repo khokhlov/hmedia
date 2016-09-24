@@ -45,7 +45,7 @@ class Movie(models.Model):
         self.save()
     
     def get_kp_id(self):
-        m = re.search('http://www.kinopoisk.ru/film/(\d+)', self.kp_id)
+        m = re.search('http[s]*://www.kinopoisk.ru/film/(\d+)', self.kp_id)
         if m:
             return m.group(1)
         return self.kp_id

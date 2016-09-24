@@ -32,7 +32,7 @@ class KPMovie:
             self.g.go(self._url())
             self.cached = self.g.doc.unicode_body()
 
-        self.name_ru = self.g.doc('//title').text()
+        self.name_ru = self.g.doc('//h1[contains(@itemprop, "name")]').text()
         self.name_en = self.g.doc('//span[contains(@itemprop, "alternativeHeadline")]').text()
         self.year = self.g.doc('//table[contains(@class, "info")]/tr/*/div/a').text()
         

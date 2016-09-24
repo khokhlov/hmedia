@@ -127,7 +127,7 @@ MEDIA_URL = '/media/'
 
 
 TORRENT_STORAGE_ROOT = MEDIA_ROOT
-TORRENT_CLIENT_PATH = os.path.join(BASE_DIR, 'torrent_client')
+TORRENT_CLIENT_PATH = '/home/kolya/movie_maker/torrents/'
 TORRENT_DOWNLOAD_PATH = os.path.join(BASE_DIR, 'torrent_download')
 
 
