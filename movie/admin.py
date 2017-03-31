@@ -17,11 +17,12 @@ def parse_kp(modeladmin, request, queryset):
         o.parse_kp()
 
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ('name_en', 'name_ru', 'year', 'kp_id', 'kp_parsed')
+    list_display = ('name_ru', 'name_en', 'year', 'kp_id', 'kp_parsed')
     exclude = ('torrents', 'movie_dir')
     inlines = [TFileInlineAdmin, MovieDirInlineAdmin]
     actions = [parse_kp, ]
 
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(MovieDir)
+admin.site.register(Genre)
 

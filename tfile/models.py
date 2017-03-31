@@ -35,6 +35,12 @@ class TFile(models.Model):
     def __unicode__(self):
         return self.name
     
+    def get_torrent_download_path(self):
+        if self.name is None or self.name == '':
+            self.clean()
+            self.save()
+        return "%s/%s"% (settings.TORRENT_DOWNLOAD_PATH, self.name)
+    
     def get_torrent_file_path(self):
         return "%s/%s"% (settings.TORRENT_STORAGE_ROOT, self.tfile)
     

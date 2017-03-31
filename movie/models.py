@@ -22,6 +22,29 @@ class MovieDir(models.Model):
     def __unicode__(self):
         return self.name
 
+class Genre(models.Model):
+    name = models.CharField(max_length = 1024, verbose_name = 'Genre')
+    
+    def __unicode__(self):
+        return self.name
+    
+    @staticmethod
+    def has(genre):
+        return Genre.objects.filter(name = genre).count() > 0
+    
+    @staticmethod
+    def get(genre):
+        return Genre.objects.filter(name = genre)[0]
+    
+    @staticmethod
+    def get_or_create(genre):
+        if Genre.has(genre):
+            return Genre.get(genre)
+        g = Genre()
+        g.name = genre
+        g.save()
+        return g
+
 class Movie(models.Model):
     name_en = models.CharField(max_length = 1024, blank = True, verbose_name = 'English name')
     name_ru = models.CharField(max_length = 1024, blank = True, verbose_name = 'Russian name')
@@ -31,15 +54,24 @@ class Movie(models.Model):
     torrents = models.ManyToManyField(TFile, verbose_name = 'Torrents')
     movie_dir = models.ManyToManyField(MovieDir, verbose_name = 'Dirs')
     cached = models.TextField(blank = True, null = True, verbose_name = 'Kinopoisk cache')
+    genres = models.ManyToManyField(Genre, blank = True, verbose_name = 'Genres')
     
     def __unicode__(self):
         return self.name_en
+    
+    def path(self):
+        return u'%s(%s)[%s]' % (self.name_ru, self.name_en, self.year)
     
     def parse_kp(self):
         m = KPMovie(self.get_kp_id(), self.cached)
         self.name_en = u'%s' % m.name_en
         self.name_ru = u'%s' % m.name_ru
         self.year = int(m.year)
+        
+        self.genres.clear()
+        for g in m.genres:
+            self.genres.add(Genre.get_or_create(g))
+
         self.kp_parsed = True
         self.cached = m.cached
         self.save()

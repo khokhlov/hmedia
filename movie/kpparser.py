@@ -35,7 +35,8 @@ class KPMovie:
         self.name_ru = self.g.doc('//h1[contains(@itemprop, "name")]').text()
         self.name_en = self.g.doc('//span[contains(@itemprop, "alternativeHeadline")]').text()
         self.year = self.g.doc('//table[contains(@class, "info")]/tr/*/div/a').text()
+        self.genres = [el.text() for el in self.g.doc('//span[contains(@itemprop, "genre")]/a')]
         
     def _url(self):
         return KINOPOISK_URL % self.kid
-    
+

@@ -125,10 +125,16 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
+# Where plase torrent files
 TORRENT_STORAGE_ROOT = MEDIA_ROOT
+
+# Path to copy torrent files to torrent client for auto download
 TORRENT_CLIENT_PATH = '/home/kolya/movie_maker/torrents/'
+
+# Path where are movies stored
 TORRENT_DOWNLOAD_PATH = os.path.join(BASE_DIR, 'torrent_download')
 
+# Path to create links by genres
+LINKS_PATH_GENRE = './movies/genres/%s'
 
 
