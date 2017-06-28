@@ -28,7 +28,7 @@ def create_link(f, t):
     except Exception as e:
         print 'Error %s -> %s: %s' % (f, t, str(e))
 
-
+"""
 # genres
 from movie.models import Genre
 for g in Genre.objects.all():
@@ -42,4 +42,13 @@ for g in Genre.objects.all():
             link_from = t.get_torrent_download_path()
             link_to = '%s/%s' % (mpath, t.name)
             create_link(link_from, link_to)
-            
+"""            
+from movie.models import Movie
+for m in Movie.objects.all():
+    for p in m.get_paths():
+        create_path(p)
+        print p
+        for t in m.torrents.all():
+            link_from = t.get_torrent_download_path()
+            link_to = '%s/%s' % (p, t.name)
+            create_link(link_from, link_to)

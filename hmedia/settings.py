@@ -135,6 +135,11 @@ TORRENT_CLIENT_PATH = '/home/kolya/movie_maker/torrents/'
 TORRENT_DOWNLOAD_PATH = os.path.join(BASE_DIR, 'torrent_download')
 
 # Path to create links by genres
-LINKS_PATH_GENRE = './movies/genres/%s'
+LINKS_PATH_GENRE = './genres/'
+
+# Path to create links by watch
+LINKS_PATH_WATCHED   = './movies/watched/'
+LINKS_PATH_UNWATCHED = './movies/unwatched/'
+LINKS_PATH_ALL       = './movies/all/'
 
 

@@ -5,12 +5,14 @@ from __future__ import unicode_literals
 import re
 
 from django.db import models
+from django.conf import settings
 
 from tfile.models import TFile
 
 from .kpparser import KPMovie
 
-import sys  
+import sys
+import os
 
 reload(sys)  
 sys.setdefaultencoding('utf8')
@@ -44,6 +46,9 @@ class Genre(models.Model):
         g.name = genre
         g.save()
         return g
+    
+    def get_path(self):
+        return os.path.join(settings.LINKS_PATH_GENRE, self.name)
 
 class Movie(models.Model):
     name_en = models.CharField(max_length = 1024, blank = True, verbose_name = 'English name')
@@ -55,6 +60,7 @@ class Movie(models.Model):
     movie_dir = models.ManyToManyField(MovieDir, verbose_name = 'Dirs')
     cached = models.TextField(blank = True, null = True, verbose_name = 'Kinopoisk cache')
     genres = models.ManyToManyField(Genre, blank = True, verbose_name = 'Genres')
+    watched_flag = models.BooleanField(default = False, verbose_name = 'Watched')
     
     def __unicode__(self):
         return self.name_en
@@ -81,6 +87,16 @@ class Movie(models.Model):
         if m:
             return m.group(1)
         return self.kp_id
+    
+    def get_paths(self):
+        paths = []
+        for g in self.genres.all():
+            if self.watched_flag:
+                paths.append(os.path.join(settings.LINKS_PATH_WATCHED, g.get_path(), self.path()))
+            else:
+                paths.append(os.path.join(settings.LINKS_PATH_UNWATCHED, g.get_path(), self.path()))
+            paths.append(os.path.join(settings.LINKS_PATH_ALL, g.get_path(), self.path()))
+        return paths
 
 
 
