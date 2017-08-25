@@ -23,6 +23,24 @@ class MovieDir(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+    @staticmethod
+    def has(name):
+        return MovieDir.objects.filter(name = name).count() > 0
+    
+    @staticmethod
+    def get(name):
+        return MovieDir.objects.filter(name = name)[0]
+    
+    @staticmethod
+    def get_or_create(name):
+        if MovieDir.has(name):
+            return MovieDir.get(name)
+        g = MovieDir()
+        g.name = name
+        g.save()
+        return g
+
 
 class Genre(models.Model):
     name = models.CharField(max_length = 1024, verbose_name = 'Genre')
@@ -97,6 +115,14 @@ class Movie(models.Model):
                 paths.append(os.path.join(settings.LINKS_PATH_UNWATCHED, g.get_path(), self.path()))
             paths.append(os.path.join(settings.LINKS_PATH_ALL, g.get_path(), self.path()))
         return paths
+    
+    @staticmethod
+    def get(kpid):
+        q = Movie.objects.filter(kp_id__contains=kpid)
+        for m in q.all():
+            if m.get_kp_id() == kpid:
+                return m
+        return None
 
 
 
