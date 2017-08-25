@@ -58,9 +58,11 @@ class TFile(models.Model):
         try:
             p = self.get_torrent_name()
             print p
-            if self.name is None or self.name == '':
-                self.name = p
+#            if self.name is None or self.name == '':
+#                self.name = p
         except:
             pass
+	if self.name is None or self.name == '':
+		self.name = p
         self.files = u'Name: %s\n' % p.decode('utf-8')
 
