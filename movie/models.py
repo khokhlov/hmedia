@@ -40,6 +40,9 @@ class MovieDir(models.Model):
         g.name = name
         g.save()
         return g
+    
+    def get_path(self):
+        return os.path.join(settings.LINKS_PATH_TAGS, self.name)
 
 
 class Genre(models.Model):
@@ -113,6 +116,8 @@ class Movie(models.Model):
                 paths.append(os.path.join(settings.LINKS_PATH_WATCHED, g.get_path(), self.path()))
             else:
                 paths.append(os.path.join(settings.LINKS_PATH_UNWATCHED, g.get_path(), self.path()))
+            paths.append(os.path.join(settings.LINKS_PATH_ALL, g.get_path(), self.path()))
+        for g in self.movie_dir.all():
             paths.append(os.path.join(settings.LINKS_PATH_ALL, g.get_path(), self.path()))
         return paths
     

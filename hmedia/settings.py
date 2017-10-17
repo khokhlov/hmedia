@@ -137,6 +137,9 @@ TORRENT_DOWNLOAD_PATH = os.path.join(BASE_DIR, 'torrent_download')
 # Path to create links by genres
 LINKS_PATH_GENRE = './genres/'
 
+# Path to tags.
+LINKS_PATH_TAGS = './tags/'
+
 # Path to create links by watch
 LINKS_PATH_WATCHED   = './movies/watched/'
 LINKS_PATH_UNWATCHED = './movies/unwatched/'
