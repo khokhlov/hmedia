@@ -23,11 +23,14 @@ from movie.models import Movie
 delay = int(sys.argv[1])
 
 q = Movie.objects.filter(kp_parsed=False)
-        
+
+l = q.count()
+cnt = 1
 
 for m in q:
     m.parse_kp()
     m.save()
-    print m.name_ru
+    print '%s [%s/%s]' % (m.name_ru, cnt, l)
+    cnt += 1
     time.sleep(delay)
 
